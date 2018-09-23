@@ -125,7 +125,7 @@ class AmbientLedProcessor(Thread):
             
             self.avgStd  = avgStd
             
-            processedRegions = np.round(np.average(self.Mem,axis=0,weights=weightRange ),0)#  np.mean( self.Errors)
+            processedRegions = np.round(np.average(self.Mem,axis=0,weights=weightRange ),0) 
                   
 
         except:
