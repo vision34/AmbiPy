@@ -16,16 +16,13 @@ class ImageCapturer():
         self.config = config  
         print self.cam.monitors
         self.displayResolution = {'mon':0,"top": 0, "left": 0, "width": self.config['screenWidth'], "height": self.config['screenHeight']} #self.cam.monitors[0] 
-  
         self.image = None 
         self.LedProcessor = ledProcessor
         self.LedProcessor.start() 
     def run(self):
         try:
-            while True: 
-                #valid, img = self.cam.read()  
-                img = np.array(self.cam.grab(self.displayResolution))
-                
+            while True:  
+                img = np.array(self.cam.grab(self.displayResolution)) 
                 if img is not None: 
                     self.image = cv2.resize(img, (self.config['ledsHorizontally'] ,self.config['ledsVertically']), cv2.INTER_NEAREST)  
                     self.LedProcessor.updateImage(self.image.copy())
@@ -47,13 +44,16 @@ class AmbientLedProcessor(Thread):
         self.SerialHeader = self.createHeader()    
         self.avgStd = 0
         self.setColor((255,255,255))
+        
     def setColor(self, c):
             (r,g,b) = c
             leds = [r,g,b]
             leds_list = self.SerialHeader + leds * self.config['LedsCount']
             self.SerialPort.write(leds_list)  
+            
     def updateImage(self,image):
         self.image = image
+        
     def initSerialConnection(self):
         try:
             self.SerialPort = serial.Serial(
@@ -151,6 +151,4 @@ class AmbientLedProcessor(Thread):
 if __name__ == '__main__': 
     config = {'LedsCount': 122, 'baudrate':115200,'comPort':'COM4','screenWidth':3840,'screenHeight':2160,'ledsHorizontally':39,'ledsVertically':22,'mssSleepTime':0.75, 'memCount':14} 
     _ledProcessor = AmbientLedProcessor(config) 
-    capturer = ImageCapturer(config, _ledProcessor) 
-    capturer.run()
-    #thread.start_new_thread(AmbiLedInstance.worker, ())
+    capturer = ImageCapturer(config, _ledProcessor)  
