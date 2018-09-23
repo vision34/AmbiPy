@@ -7,11 +7,7 @@ import traceback
 import numpy as np 
 import cv2
 import datetime
-from threading import Thread, Lock
-import imutils
-from pyimagesearch.transform import four_point_transform
-from skimage.filters import threshold_local
-import time
+from threading import Thread, Lock  
 from mss import mss
 
 class ImageCapturer():
