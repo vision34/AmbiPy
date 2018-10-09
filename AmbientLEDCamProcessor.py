@@ -39,6 +39,7 @@ class Settings:
         self.configInitFile = "init.ini" if configInitFile is None else configInitFile
         self.actualConfigFile = self.mainPath + self.configInitFile
         self.config = {}
+        
      def LoadSettings(self): 
              
             if(os.path.isfile( self.actualConfigFile )):
@@ -72,8 +73,7 @@ class Settings:
                     print 'cannot open config file.', self.actualConfigFile
                 finally:
                     f.close()
-                
-
+                 
      def SaveSettings(self):
   
             f = open( self.actualConfigFile, 'w')
@@ -161,8 +161,7 @@ class ImageCapturer():
                 if valid:  
                     self.image =  img
  
-                    if len(self.config['refPt'])==4: 
-                        
+                    if len(self.config['refPt'])==4:  
                         pts = np.array(self.config['refPt'], np.int32)
                         pts = pts.reshape((-1,1,2))
                         self.imageReshaped = four_point_transform(self.image, pts.reshape(4, 2)  )
